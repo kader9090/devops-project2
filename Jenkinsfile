@@ -1,10 +1,10 @@
 pipeline {
 
     environment {
-        IMAGE_NAME = "static-web"
+        IMAGE_NAME = "node-web-app"
         USERNAME = "abdelkader90"
-        CONTAINER_NAME = "static-web"
-        EC2_PRODUCTION_HOST = "100.24.20.194"
+        CONTAINER_NAME = "container"
+        EC2_PRODUCTION_HOST = "52.91.200.254"
 
     }
 
@@ -28,7 +28,7 @@ pipeline {
                    sh '''
                        docker stop $CONTAINER_NAME || true
                        docker rm $CONTAINER_NAME || true
-                       docker run --name $CONTAINER_NAME -d -p 5000:80 $USERNAME/$IMAGE_NAME:$BUILD_TAG
+                       docker run --name $CONTAINER_NAME -d -p 8080:3000 $USERNAME/$IMAGE_NAME:$BUILD_TAG
                        sleep 5
                    '''
                }
@@ -40,7 +40,7 @@ pipeline {
            steps {
                script{
                    sh '''
-                       curl http://localhost:5000 | grep -iq "Dimension"
+                       curl http://localhost:8080 | grep -iq "DevOps Foundation"
                    '''
                }
            }
